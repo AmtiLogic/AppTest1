@@ -1,0 +1,14 @@
+{
+  "name": "Tic Tac Toe",
+  "short_name": "Tic Tac Toe",
+  "description": "A clean, mobile-friendly Tic Tac Toe game — play a friend or the CPU.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5f9",
+  "theme_color": "#151821",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

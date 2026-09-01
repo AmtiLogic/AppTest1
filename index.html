@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Tic Tac Toe</title>
+<meta name="description" content="A clean, mobile-friendly Tic Tac Toe game — play a friend or the CPU." />
+<meta name="theme-color" content="#151821" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f4f5f9" media="(prefers-color-scheme: light)" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Tic Tac Toe" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icon.svg" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <h1>Tic Tac Toe</h1>
+      <button id="menuBtn" class="icon-btn" aria-label="Settings" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.4 7.4 0 0 0 .07-1 7.4 7.4 0 0 0-.07-1l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.5 7.5 0 0 0-1.73-1L14.5 2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.42 2.6a7.5 7.5 0 0 0-1.73 1l-2.39-.96a.5.5 0 0 0-.6.22L2.44 8.78a.5.5 0 0 0 .12.64L4.6 11a7.4 7.4 0 0 0 0 2l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.53.43 1.1.77 1.73 1l.42 2.6c.05.24.26.4.5.4h4c.24 0 .45-.16.5-.4l.42-2.6c.63-.23 1.2-.57 1.73-1l2.39.96c.21.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64L19.4 13Zm-7.4 2.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+      </button>
+    </header>
+
+    <section id="menuPanel" class="menu-panel" hidden>
+      <div class="menu-row">
+        <span>Mode</span>
+        <div class="segmented" role="group" aria-label="Game mode">
+          <button class="seg-btn active" data-mode="cpu">Vs CPU</button>
+          <button class="seg-btn" data-mode="pvp">2 Players</button>
+        </div>
+      </div>
+      <div class="menu-row" id="difficultyRow">
+        <span>Difficulty</span>
+        <div class="segmented" role="group" aria-label="CPU difficulty">
+          <button class="seg-btn" data-diff="easy">Easy</button>
+          <button class="seg-btn active" data-diff="hard">Unbeatable</button>
+        </div>
+      </div>
+      <div class="menu-row">
+        <span>Sound &amp; Haptics</span>
+        <label class="switch">
+          <input type="checkbox" id="fxToggle" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <button id="resetScoreBtn" class="text-btn">Reset scores</button>
+    </section>
+
+    <section class="scoreboard" aria-label="Scoreboard">
+      <div class="score-card" id="scoreX">
+        <span class="score-label">X</span>
+        <span class="score-value" id="scoreXVal">0</span>
+      </div>
+      <div class="score-card" id="scoreDraw">
+        <span class="score-label">Draws</span>
+        <span class="score-value" id="scoreDrawVal">0</span>
+      </div>
+      <div class="score-card" id="scoreO">
+        <span class="score-label" id="oLabel">O</span>
+        <span class="score-value" id="scoreOVal">0</span>
+      </div>
+    </section>
+
+    <p id="status" class="status" aria-live="polite">X's turn</p>
+
+    <main class="board-wrap">
+      <div id="board" class="board" role="grid" aria-label="Tic tac toe board">
+        <button class="cell" role="gridcell" data-index="0" aria-label="Row 1 Column 1"></button>
+        <button class="cell" role="gridcell" data-index="1" aria-label="Row 1 Column 2"></button>
+        <button class="cell" role="gridcell" data-index="2" aria-label="Row 1 Column 3"></button>
+        <button class="cell" role="gridcell" data-index="3" aria-label="Row 2 Column 1"></button>
+        <button class="cell" role="gridcell" data-index="4" aria-label="Row 2 Column 2"></button>
+        <button class="cell" role="gridcell" data-index="5" aria-label="Row 2 Column 3"></button>
+        <button class="cell" role="gridcell" data-index="6" aria-label="Row 3 Column 1"></button>
+        <button class="cell" role="gridcell" data-index="7" aria-label="Row 3 Column 2"></button>
+        <button class="cell" role="gridcell" data-index="8" aria-label="Row 3 Column 3"></button>
+        <svg id="winLine" class="win-line" viewBox="0 0 300 300" aria-hidden="true">
+          <line id="winLineEl" x1="0" y1="0" x2="0" y2="0" />
+        </svg>
+      </div>
+    </main>
+
+    <div class="actions">
+      <button id="newGameBtn" class="primary-btn">New Game</button>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+</body>
+</html>
