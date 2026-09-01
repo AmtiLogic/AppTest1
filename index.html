@@ -3,24 +3,36 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-<title>Tic Tac Toe</title>
-<meta name="description" content="A clean, mobile-friendly Tic Tac Toe game — play a friend or the CPU." />
-<meta name="theme-color" content="#151821" media="(prefers-color-scheme: dark)" />
-<meta name="theme-color" content="#f4f5f9" media="(prefers-color-scheme: light)" />
+<title>光陣 — Tic Tac Toe</title>
+<meta name="description" content="A neon-grid, feudal-Japan take on Tic Tac Toe — play a friend or duel the CPU." />
+<meta name="theme-color" content="#05070c" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Tic Tac Toe" />
+<meta name="apple-mobile-web-app-title" content="光陣" />
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="icon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <svg class="torii-deco" viewBox="0 0 300 140" aria-hidden="true">
+    <rect x="10" y="18" width="280" height="10" rx="2"/>
+    <rect x="0" y="40" width="300" height="7" rx="2"/>
+    <rect x="34" y="18" width="14" height="112"/>
+    <rect x="252" y="18" width="14" height="112"/>
+  </svg>
+
   <div class="app">
     <header class="topbar">
-      <h1>Tic Tac Toe</h1>
+      <div class="brand">
+        <span class="brand-kanji" aria-hidden="true">光陣</span>
+        <h1>TIC · TAC · TOE</h1>
+      </div>
       <button id="menuBtn" class="icon-btn" aria-label="Settings" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.4 7.4 0 0 0 .07-1 7.4 7.4 0 0 0-.07-1l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.5 7.5 0 0 0-1.73-1L14.5 2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.42 2.6a7.5 7.5 0 0 0-1.73 1l-2.39-.96a.5.5 0 0 0-.6.22L2.44 8.78a.5.5 0 0 0 .12.64L4.6 11a7.4 7.4 0 0 0 0 2l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.53.43 1.1.77 1.73 1l.42 2.6c.05.24.26.4.5.4h4c.24 0 .45-.16.5-.4l.42-2.6c.63-.23 1.2-.57 1.73-1l2.39.96c.21.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64L19.4 13Zm-7.4 2.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.4 7.4 0 0 0 .07-1 7.4 7.4 0 0 0-.07-1l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.5 7.5 0 0 0-1.73-1L14.5 2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.42 2.6a7.5 7.5 0 0 0-1.73 1l-2.39-.96a.5.5 0 0 0-.6.22L2.44 8.78a.5.5 0 0 0 .12.64L4.6 11a7.4 7.4 0 0 0 0 2l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.53.43 1.1.77 1.73 1l.42 2.6c.05.24.26.4.5.4h4c.24 0 .45-.16.5-.4l.42-2.6c.63-.23 1.2-.57 1.73-1l2.39.96c.21.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64L19.4 13Zm-7.4 2.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"/></svg>
       </button>
     </header>
 
@@ -51,14 +63,17 @@
 
     <section class="scoreboard" aria-label="Scoreboard">
       <div class="score-card" id="scoreX">
+        <span class="score-kanji" aria-hidden="true">先</span>
         <span class="score-label">X</span>
         <span class="score-value" id="scoreXVal">0</span>
       </div>
       <div class="score-card" id="scoreDraw">
+        <span class="score-kanji" aria-hidden="true">分</span>
         <span class="score-label">Draws</span>
         <span class="score-value" id="scoreDrawVal">0</span>
       </div>
       <div class="score-card" id="scoreO">
+        <span class="score-kanji" aria-hidden="true">後</span>
         <span class="score-label" id="oLabel">O</span>
         <span class="score-value" id="scoreOVal">0</span>
       </div>
@@ -84,7 +99,7 @@
     </main>
 
     <div class="actions">
-      <button id="newGameBtn" class="primary-btn">New Game</button>
+      <button id="newGameBtn" class="primary-btn">新規対局 · New Duel</button>
     </div>
   </div>
 

@@ -1,13 +1,13 @@
 {
-  "name": "Tic Tac Toe",
-  "short_name": "Tic Tac Toe",
-  "description": "A clean, mobile-friendly Tic Tac Toe game — play a friend or the CPU.",
+  "name": "光陣 — Tic Tac Toe",
+  "short_name": "光陣",
+  "description": "A neon-grid, feudal-Japan take on Tic Tac Toe — play a friend or duel the CPU.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f4f5f9",
-  "theme_color": "#151821",
+  "background_color": "#05070c",
+  "theme_color": "#05070c",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]

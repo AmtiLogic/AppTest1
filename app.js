@@ -146,7 +146,9 @@
     winLineEl.setAttribute("y1", y1);
     winLineEl.setAttribute("x2", x2);
     winLineEl.setAttribute("y2", y2);
-    winLineEl.style.stroke = board[line[0]] === "X" ? "var(--accent-x)" : "var(--accent-o)";
+    const lineColor = board[line[0]] === "X" ? "var(--accent-x)" : "var(--accent-o)";
+    winLineEl.style.stroke = lineColor;
+    winLineEl.style.color = lineColor;
     void winLineEl.getBoundingClientRect();
     winLineEl.classList.add("show");
   }
