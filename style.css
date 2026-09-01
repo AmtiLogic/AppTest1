@@ -37,12 +37,34 @@ body {
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  padding: 20px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: clip;
+}
+
+.topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
 .torii-deco {
-  position: fixed;
-  top: -18px;
+  position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: min(92vw, 460px);
+  transform: translate(-50%, -50%);
+  width: 220px;
+  max-width: 70%;
   height: auto;
   fill: var(--accent-o);
   opacity: 0.16;
@@ -51,22 +73,9 @@ body {
   z-index: 0;
 }
 
-.app {
+.brand, .topbar .icon-btn {
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: 480px;
-  min-height: 100dvh;
-  padding: 20px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .brand {
