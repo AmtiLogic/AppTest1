@@ -18,26 +18,22 @@ export function jobsView({ setHeader }) {
   const state = store.getState();
   const running = store.runningEntry();
 
+  const showArchived = new URLSearchParams(location.hash.split('?')[1] || '').get('archived') === '1';
+  const hasArchived = state.jobs.some((j) => j.archived);
+
   setHeader({
     title: 'Jobs',
     actions: [
       { icon: 'plus', label: 'New job', onClick: () => newJobFlow() },
-      {
-        icon: 'more',
-        label: 'More',
-        onClick: async () => {
-          const choice = await actionSheet('Jobs', [
-            { value: 'archived', label: state.jobs.some((j) => j.archived) ? 'Show archived jobs' : 'No archived jobs', icon: 'archive' },
-            { value: 'export', label: 'Send hours to a client', icon: 'send' },
-          ]);
-          if (choice === 'archived') navigate('#/jobs?archived=1');
-          if (choice === 'export') navigate('#/send');
-        },
-      },
-    ],
+      hasArchived
+        ? {
+            text: showArchived ? 'Hide old' : 'Archived',
+            onClick: () => navigate(showArchived ? '#/jobs' : '#/jobs?archived=1'),
+          }
+        : null,
+    ].filter(Boolean),
   });
 
-  const showArchived = new URLSearchParams(location.hash.split('?')[1] || '').get('archived') === '1';
   const view = el('div', { class: 'view' });
 
   const search = el('input', {
@@ -66,11 +62,11 @@ export function jobsView({ setHeader }) {
         state.jobs.length
           ? emptyState('Nothing matches', 'Try a different search.')
           : emptyState(
-              'No jobs yet',
-              'A job holds a client, an hourly rate and the hours you work for them.',
+              'Start with a job',
+              'A job is one client and one hourly rate. Track hours against it, then send that client an invoice.',
               el('div', { class: 'empty-actions' },
                 button('Create your first job', { variant: 'primary', icon: 'plus', onClick: () => newJobFlow() }),
-                button('Load sample data', {
+                button('Try it with sample data', {
                   variant: 'ghost',
                   onClick: () => {
                     store.seedSample();
@@ -88,6 +84,16 @@ export function jobsView({ setHeader }) {
 
     if (onClock.length) list.appendChild(jobGroup('On the clock', onClock, running, 'on'));
     if (offClock.length) list.appendChild(jobGroup('Off the clock', offClock, running, 'off'));
+
+    // One nudge, only while it is still true: a brand-new job list gives no clue
+    // what "Start" does or where the hours end up.
+    if (!store.getState().entries.length) {
+      list.appendChild(
+        el('p', { class: 'hint hint-tip' },
+          'Tap ', el('strong', {}, 'Start'), ' to clock in, or open a job to add hours by hand. ',
+          'When you’re ready to bill, go to ', el('strong', {}, 'Send'), '.')
+      );
+    }
   }
 
   renderList();
@@ -104,6 +110,7 @@ function jobGroup(title, jobs, running, tone) {
 function jobRow(job, running) {
   const isRunning = running && running.jobId === job.id;
   const metrics = isRunning ? entryMetrics(running, job) : null;
+  const otherRunning = running && running.jobId !== job.id;
 
   return el('div', { class: 'job-row' },
     el('button', {
@@ -122,13 +129,24 @@ function jobRow(job, running) {
       ),
       isRunning
         ? el('span', { class: 'running-pill', dataset: { tick: running.id } }, formatStopwatch(metrics.elapsed))
-        : null,
-      icon('chevron', 16)
+        : null
     ),
+    // Clocking in is far and away the most common thing anyone does here, so it
+    // is one labelled tap from the list rather than a trip through a menu.
     el('button', {
-      class: 'job-info', type: 'button', 'aria-label': `Options for ${job.name}`,
-      onClick: () => jobMenu(job),
-    }, icon('info', 20))
+      class: `job-clock${isRunning ? ' job-clock-stop' : ''}`,
+      type: 'button',
+      'aria-label': isRunning ? `Clock out of ${job.name}` : `Clock in to ${job.name}`,
+      onClick: () => {
+        if (isRunning) {
+          store.clockOut(running.id);
+          toast('Clocked out');
+        } else {
+          store.clockIn(job.id);
+          toast(otherRunning ? `Switched to ${job.name}` : `Clocked in — ${job.name}`);
+        }
+      },
+    }, el('span', {}, isRunning ? 'Stop' : 'Start'))
   );
 }
 
@@ -193,9 +211,8 @@ export function jobDetailView({ params, setHeader }) {
     title: 'Job',
     back: '#/jobs',
     actions: [
-      { icon: 'edit', label: 'Edit job', onClick: () => editJob(job) },
-      { icon: 'more', label: 'More', onClick: () => jobMenu(job) },
-      { icon: 'plus', label: 'Add entry', onClick: () => editEntry(null, { jobId: job.id }) },
+      { text: 'Edit', onClick: () => editJob(job) },
+      { icon: 'more', label: 'More actions', onClick: () => jobMenu(job) },
     ],
   });
 
@@ -242,7 +259,7 @@ export function jobDetailView({ params, setHeader }) {
   view.appendChild(
     el('div', { class: 'quick-row' },
       button('Add Entry', { variant: 'ghost', icon: 'plus', onClick: () => editEntry(null, { jobId: job.id }) }),
-      button('Send to client', { variant: 'ghost', icon: 'send', onClick: () => navigate(`#/send?job=${job.id}`) })
+      button('Send hours', { variant: 'ghost', icon: 'send', onClick: () => navigate(`#/send?job=${job.id}`) })
     )
   );
 

@@ -11,10 +11,11 @@ dependencies, no bundler.
 
 **Track**
 - Jobs with a colour, hourly rate, client details and notes
-- Clock in and out, or **Start at…** when you forgot to hit the button, with a
-  live timer visible from anywhere in the app
+- **Start** / **Stop** on every row of the jobs list — clocking in is one tap
+  from the home screen, and starting a second job stops the first
+- **Start at…** for a shift already under way, plus a live timer that follows
+  you around the app
 - Add and edit shifts by hand, with breaks, notes and tags
-- One shift at a time: clocking into a second job clocks you out of the first
 - A warning when a shift you're saving overlaps one you already recorded
 
 **Rules that match how the job is actually billed**
@@ -26,14 +27,16 @@ dependencies, no bundler.
   an hour is never paid as overtime twice
 
 **Review**
-- Entries grouped by day, filtered by job and date range, with multi-select to
+- Hours grouped by day, filtered by job and date range, with multi-select to
   delete or mark invoiced in bulk
 - Pay periods — weekly, fortnightly, twice-monthly or monthly — each with a
   per-day chart and a per-job breakdown
 
-**Send to a client**
+**Send to a client** — its own tab, because it is the point of the app
 - **Invoice** with line items, rates, tax and an amount due, or **Timesheet**
   with hours only and no money anywhere on the page
+- Pick a job and a date range and the deliver buttons are right there; layout,
+  billing details and the covering note sit below for when you want them
 - Group lines by shift, by day or by job; show or hide clock times
 - Print to PDF, email, share, download as HTML, export CSV, or copy a plain-text
   summary

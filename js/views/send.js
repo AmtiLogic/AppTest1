@@ -42,7 +42,11 @@ export function sendView({ setHeader, query, rerender }) {
 
   if (!state.entries.length) {
     return el('div', { class: 'view' },
-      emptyState('Nothing to send yet', 'Record some hours and they will show up here, ready to invoice.'));
+      emptyState(
+        'Nothing to send yet',
+        'Once you have recorded some hours, this is where you turn them into an invoice or a timesheet for your client.',
+        button('Go to Jobs', { variant: 'primary', onClick: () => { location.hash = '#/jobs'; } })
+      ));
   }
 
   const options = presets(settings);
@@ -197,8 +201,14 @@ export function sendView({ setHeader, query, rerender }) {
     );
   }
 
-  /* ---------------- Layout ---------------- */
-  view.appendChild(
+  /* ---------------- Refinements ----------------
+   * Collected here but appended *below* the deliver buttons: picking a job and
+   * a date range is the whole job for most sends, and the client details
+   * already come pre-filled from the job. Nobody should have to scroll past
+   * four optional sections to find the button that does the thing. */
+  const customise = [];
+
+  customise.push(
     el('section', {},
       el('h4', { class: 'section-title' }, 'Layout'),
       card(
@@ -233,7 +243,7 @@ export function sendView({ setHeader, query, rerender }) {
     }, draft.client.address))
   );
 
-  view.appendChild(
+  customise.push(
     el('section', {},
       el('h4', { class: 'section-title' }, draft.kind === 'Invoice' ? 'Bill to' : 'Prepared for'),
       clientCard
@@ -241,7 +251,7 @@ export function sendView({ setHeader, query, rerender }) {
   );
 
   if (draft.kind === 'Invoice') {
-    view.appendChild(
+    customise.push(
       el('section', {},
         el('h4', { class: 'section-title' }, 'Invoice details'),
         card(
@@ -277,7 +287,7 @@ export function sendView({ setHeader, query, rerender }) {
     );
   }
 
-  view.appendChild(
+  customise.push(
     el('section', {},
       el('h4', { class: 'section-title' }, 'Message'),
       card(
@@ -289,17 +299,24 @@ export function sendView({ setHeader, query, rerender }) {
     )
   );
 
-  if (!settings.business.name) {
-    view.appendChild(
-      el('p', { class: 'hint hint-warn' },
-        'Your own name and contact details are blank — ',
-        el('a', { href: '#/settings' }, 'add them in Settings'),
-        ' so the client knows who is billing them.')
-    );
-  }
-
   /* ---------------- Actions ---------------- */
   const disabled = entries.length === 0;
+
+  // Say what is missing before they send, not after the client asks.
+  const gaps = [];
+  if (!settings.business.name) {
+    gaps.push(el('p', { class: 'hint hint-warn' },
+      'Your own name is blank, so the document has no sender — ',
+      el('a', { href: '#/settings' }, 'add your details in Settings'),
+      '.'));
+  }
+  if (entries.length && !draft.client.name) {
+    gaps.push(el('p', { class: 'hint hint-warn' },
+      `No ${draft.kind === 'Invoice' ? 'client' : 'recipient'} name yet — fill in `,
+      el('strong', {}, draft.kind === 'Invoice' ? '“Bill to”' : '“Prepared for”'),
+      ' below, or it will be left blank.'));
+  }
+  view.append(...gaps);
 
   const afterSend = async () => {
     if (draft.kind !== 'Invoice') return;
@@ -404,10 +421,15 @@ export function sendView({ setHeader, query, rerender }) {
         })
       ),
       el('p', { class: 'hint' },
-        'The document is a single self-contained file: no tracking, no external requests. ',
-        'Print it and choose “Save as PDF” to send a PDF.')
+        'Print and choose “Save as PDF” to send a PDF. The document is one ',
+        'self-contained file — no tracking, no external requests.')
     )
   );
+
+  view.appendChild(
+    el('h4', { class: 'section-title divider-title' }, 'Fine-tune the document')
+  );
+  view.append(...customise);
 
   return view;
 }

@@ -14,7 +14,7 @@ export function settingsView({ setHeader, rerender }) {
   const state = store.getState();
   const s = state.settings;
 
-  setHeader({ title: 'More', actions: [] });
+  setHeader({ title: 'Settings', actions: [] });
 
   const view = el('div', { class: 'view' });
   const set = (patch) => store.updateSettings(patch);

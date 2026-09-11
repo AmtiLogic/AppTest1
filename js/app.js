@@ -10,11 +10,14 @@ import { reportsView } from './views/reports.js';
 import { sendView, resetSendDraft } from './views/send.js';
 import { settingsView, applyTheme } from './views/settings.js';
 
+// Send earns a tab of its own: turning hours into an invoice is the reason the
+// app exists, and it was previously reachable only through an overflow menu.
 const TABS = [
   { hash: '#/jobs', label: 'Jobs', icon: 'jobs', match: (p) => p.startsWith('/job') },
-  { hash: '#/entries', label: 'Entries', icon: 'clock', match: (p) => p.startsWith('/entries') },
-  { hash: '#/periods', label: 'Pay Periods', icon: 'wallet', match: (p) => p.startsWith('/periods') },
-  { hash: '#/settings', label: 'More', icon: 'more', match: (p) => p.startsWith('/settings') || p.startsWith('/send') },
+  { hash: '#/entries', label: 'Hours', icon: 'clock', match: (p) => p.startsWith('/entries') },
+  { hash: '#/periods', label: 'Periods', icon: 'wallet', match: (p) => p.startsWith('/periods') },
+  { hash: '#/send', label: 'Send', icon: 'send', match: (p) => p.startsWith('/send') },
+  { hash: '#/settings', label: 'Settings', icon: 'gear', match: (p) => p.startsWith('/settings') },
 ];
 
 const header = el('header', { class: 'topbar' });
@@ -42,9 +45,14 @@ function setHeader({ title, back, actions = [], onTitleClick }) {
   );
   header.appendChild(
     el('div', { class: 'topbar-actions' },
+      // An action with `text` renders as a word rather than a glyph. Icons are
+      // only self-explanatory for a handful of universal actions (+, back);
+      // anything else says what it does.
       actions.map((a) =>
-        el('button', { class: 'icon-btn', type: 'button', 'aria-label': a.label, title: a.label, onClick: a.onClick },
-          icon(a.icon, 20))
+        a.text
+          ? el('button', { class: 'text-btn', type: 'button', onClick: a.onClick }, a.text)
+          : el('button', { class: 'icon-btn', type: 'button', 'aria-label': a.label, title: a.label, onClick: a.onClick },
+              icon(a.icon, 20))
       )
     )
   );
@@ -155,7 +163,10 @@ function renderTabs(path) {
 
 function renderBanner() {
   const running = store.runningEntry();
-  if (!running) {
+  // The Jobs screens already show the running shift with its own timer and
+  // stop button; a second copy of both directly above them is just noise.
+  const redundantHere = currentPath.startsWith('/job');
+  if (!running || redundantHere) {
     banner.hidden = true;
     clear(banner);
     return;

@@ -50,11 +50,10 @@ export function entriesView({ setHeader, rerender }) {
   const jobs = store.getState().jobs;
 
   setHeader({
-    title: 'Entries',
+    title: 'Hours',
     actions: [
       {
-        icon: uiState.selecting ? 'close' : 'check-list',
-        label: uiState.selecting ? 'Done selecting' : 'Select',
+        text: uiState.selecting ? 'Done' : 'Select',
         onClick: () => {
           uiState.selecting = !uiState.selecting;
           uiState.selected.clear();
@@ -98,7 +97,9 @@ export function entriesView({ setHeader, rerender }) {
     view.appendChild(
       emptyState(
         'Nothing here',
-        uiState.range === 'all' ? 'Clock in or add an entry to get started.' : 'No hours recorded in this range.',
+        uiState.range === 'all'
+          ? 'Clock in from the Jobs tab, or add an entry by hand.'
+          : 'Nothing in this range. Your older hours are still here — tap “All” above to see them.',
         button('Add entry', { variant: 'primary', icon: 'plus', onClick: () => editEntry(null) })
       )
     );

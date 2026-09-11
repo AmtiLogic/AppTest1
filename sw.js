@@ -6,7 +6,7 @@
  * Bump CACHE when shipping changes so old assets are dropped.
  */
 
-const CACHE = 'hoursly-v1';
+const CACHE = 'hoursly-v2';
 
 const SHELL = [
   './',

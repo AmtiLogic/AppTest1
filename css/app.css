@@ -137,6 +137,20 @@ a { color: var(--accent); }
 .icon-btn:active { background: var(--bg-elev-2); }
 .icon-btn-ghost { pointer-events: none; }
 
+/* Header actions that need a word rather than a glyph. */
+.text-btn {
+  min-height: 38px;
+  padding: 6px 10px;
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.text-btn:active { background: var(--bg-elev-2); }
+
 .main {
   flex: 1;
   overflow-y: auto;
@@ -161,16 +175,23 @@ a { color: var(--accent); }
 }
 .tab {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 8px 4px 6px;
+  padding: 8px 2px 6px;
   color: var(--text-faint);
   text-decoration: none;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.01em;
+}
+.tab span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tab-on { color: var(--accent); }
 
@@ -289,6 +310,15 @@ section { display: flex; flex-direction: column; gap: 8px; }
   color: var(--text-faint);
 }
 .hint-warn { color: var(--warn); }
+.hint-tip {
+  margin-top: 4px;
+  padding: 12px 14px;
+  background: var(--bg-elev);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+}
+.hint-tip strong { color: var(--text); }
+.divider-title { margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
 .footer-note { text-align: center; color: var(--text-faint); font-size: 12px; margin: 8px 0 0; }
 
 /* ------------------------------------------------------------------ *
@@ -458,8 +488,29 @@ select {
   font-size: 16px; font-weight: 600;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.job-text small { color: var(--text-dim); font-size: 12.5px; }
-.job-info { padding: 0 14px; background: none; border: 0; color: var(--accent); display: grid; place-items: center; }
+.job-text small {
+  color: var(--text-dim);
+  font-size: 12.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* One-tap clock in / out, straight from the list. */
+.job-clock {
+  align-self: center;
+  margin-right: 12px;
+  min-width: 64px;
+  min-height: 34px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--go);
+  color: var(--go-ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+.job-clock-stop { background: var(--stop); color: #fff; }
+.job-clock:active { transform: scale(0.96); }
 .running-pill {
   background: color-mix(in srgb, var(--go) 20%, transparent);
   color: var(--go);
