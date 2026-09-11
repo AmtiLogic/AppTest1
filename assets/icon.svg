@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hoursly">
+  <rect width="512" height="512" rx="112" fill="#0b0b0d"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#2fb750" stroke-width="28"/>
+  <path d="M256 156v106l72 44" fill="none" stroke="#f5f6f8" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

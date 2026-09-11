@@ -1,0 +1,13 @@
+{
+  "name": "hoursly",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Track hours and pay for every job, then send a clean invoice or timesheet to your client.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "start": "npx --yes http-server . -p 8080 -c-1 -o"
+  },
+  "keywords": ["time-tracking", "invoicing", "timesheet", "pwa"],
+  "license": "MIT"
+}

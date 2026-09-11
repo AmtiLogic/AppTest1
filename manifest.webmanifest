@@ -1,0 +1,22 @@
+{
+  "name": "Hoursly — hours, pay and invoices",
+  "short_name": "Hoursly",
+  "description": "Track hours and pay for every job, then send a clean invoice or timesheet to your client.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0b0d",
+  "theme_color": "#0b0b0d",
+  "categories": ["business", "productivity", "finance"],
+  "icons": [
+    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "./assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Entries", "url": "./index.html#/entries" },
+    { "name": "Send to client", "url": "./index.html#/send" }
+  ]
+}
